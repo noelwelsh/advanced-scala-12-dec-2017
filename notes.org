@@ -1,0 +1,218 @@
+#+TITLE: Public Course 12 Dec 2017
+* People
+** Tudor
+   Scala 3 years, previously Java
+   Real world usage of Cats
+   Seen what's a monad / monoid---but wants to see Cats being used 
+   Hotels.com most recently, now contractor
+** Svetlana
+   4 years SE, 1.5 years Scala
+   Use Scala is a more functional way
+   Zalando
+** Adrian
+   10 years SE, Java 7 years, Scala 3 years
+   Played around with Cats but wants to use Scala in a more functional way
+   Zalando
+** Andrew
+   ITV, Scala 3-4 years
+   More functional Scala
+** Sofia
+   Scala 3 years
+   Be more comfortable with FP in Scala
+** Martin
+   Scala 4-5 years
+   Used a bit of Cats, like to learn more
+* Best in Code
+** Concision
+   val a = f(x)
+   val b = g(a)
+   b
+
+   vs.
+
+   g(f(x))
+   
+   vs
+
+   (f _) andThen (g _)
+** Readability
+   *Know what is going on at each step*
+   ~~~
+   a ! aMessage
+   b ! anotherMessage
+   c ! yesMoreMessages
+   ~~~
+   Loss of control
+   - non-local control?
+   - side effects?
+     - does too many things
+
+   ~~~
+   a ! aMessage
+   a ! anotherMessage
+   ~~~
+   a ! anotherMessage
+   a ! aMessage
+   ~~~
+   
+   1 + 1
+   2 * 3
+
+   2 * 3
+   1 + 1
+   
+   def foo(x: Int): Int = x + 42
+
+   commutative
+
+   Formatting
+   Code structure
+   Consistency
+   - naming
+   - SRP
+   Self documenting
+   
+   ~fa flatMap (a => doSomething(a))~
+   ~fa >>= (a => doSomething(a))~
+   
+   ~1.add(2).times(3)~
+   ~1 + 2 * 3~
+   
+   Familiarity => a few powerful techniques
+** Testability
+   Being able to reason about a particular function
+   - side effects hamper reasoning
+   - hard to test w/ side effects
+   
+   Corner cases
+   
+   DI / isolate or control context
+** Resuable
+   Modularity
+   SRP
+   Compositional
+   - g(f(x))  -->[f]-->[g]-->
+   - 1 + 1
+   - 1 + 1 + 1 == 2 + 1
+   - closure, if x and y have type A, f(x, y) has type A
+   - List and map
+** Fancy words
+   Local reasoning
+   - can understand code in isolation
+   
+   Abstraction
+
+   Composition 
+* Levels of Thinking
+  Aesthetic
+  ------------
+  Conceptual
+  ------------
+  Craft / code
+* Building Blocks
+** Algebraic data types
+   sealed trait and case class
+** Type classes
+   implicit parameter and implicit value
+
+   What is the code / Scala representation?
+   What is it conceptually?
+   When would we use it?
+   When would we not use it?
+* Error Handling
+** Tools
+   - Either: user specifies error type
+   - Try: catches exceptions, errors are type throwable
+   - Future: like Try but asynchronous
+   - Option: no information associated with failure
+   - throwing exception
+     - when you can't handle / recover from the error (e.g. OOM)
+** Types of errors
+   Things we care about / can handle
+   Things we can't recover from in any useful way
+** Control Flow
+   Default to short circuit / fail-fast
+   Alternatively accumulate errors
+** Lets Implement an Error Handling Type Class
+   We want to abstract over a minimum of Future, Try, and Either
+   We want short circuit / fail-fast behaviour by default
+** Type class
+   the trait---that is the type class
+   implicit values---that are type class instances
+   implicit class---extension methods (nicer syntax)
+   implicit parameter or context bound---usage
+** Lessons
+   "Great artists steal"---Steve Jobs
+   Read the literature
+
+   Higher-kinded types (type constructors)
+    - declaring them
+    - the scala.language import
+
+   Abstracting methods
+   Multiple parameter lists
+
+   Handling the error type
+   
+   implicit method as an implicit values
+   capturing dependency at type class instance construction
+
+   type lambdas
+* Interpreters
+** Substitution
+   A pure function returns the same value for the same input
+   
+   (1 + 1) + 2
+   2 + 2
+   4
+   
+   val a = println("Hi!")
+   a
+   a
+
+   println("Hi!")
+   println("Hi!")
+** Interpreters
+   val a = () => println("Hi!")
+   a
+   a 
+
+   () => println("Hi!") 
+   () => println("Hi!")
+
+   An interpreter separates describing and doing
+** Implementation Techniques
+   "Great artists steal"
+   Reified the operations to (algebraic) data (types)
+   Implemented interpreters using structural recursion (pattern matching)
+   Different interepreters have different semantics
+   Algebra: atoms and operations to combine them
+   - introduction / constructor---create "atoms"
+   - combinations / transform
+   - elimination / interpreter---run the structure or remove the structure
+** Streams
+   persist
+   filter
+   map
+   merge
+   split
+   fold
+  
+   // Introduction 
+   fromIterator: Iterator[A] => Stream[A]
+   fromSeq: Seq[A] => Stream[A]
+
+   // Combination
+   map / merge / split / filter
+   map: (Stream[A], (A => B)): Stream[B]
+
+   // Elimination
+   fold?
+   persist?
+** Cats
+   type class instances in cats.instances...
+   extension methods in cats.syntax...
+   
+   can always import everything
+   cats.all._
+   cats.syntax.all._
