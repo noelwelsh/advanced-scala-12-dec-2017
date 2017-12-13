@@ -1,6 +1,7 @@
 scalaVersion := "2.12.4"
 
 libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.0-RC1" changing()
+libraryDependencies += "org.typelevel" %% "cats-free" % "1.0.0-RC1" changing()
 libraryDependencies += "org.typelevel" %% "cats-effect" % "0.5"
 
 scalacOptions ++= Seq(
