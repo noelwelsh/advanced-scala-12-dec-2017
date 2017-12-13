@@ -67,7 +67,7 @@ object Examples {
 
   def doSomething[F[_],E](fa: F[Int])(implicit eh: ErrorHandling[F, E]): F[Int] = {
     val stepOne = eh.map(fa)(f => f + 1)
-    eh.recover(stepOne){case e => 42}
+    eh.recover(stepOne){case _ => 42}
   }
 
   println(doSomething(theFuture))
