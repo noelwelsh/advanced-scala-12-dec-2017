@@ -16,7 +16,7 @@ object Database {
     Free.liftF(Read(key))
 
   def write(key: Int, value: String): Database[Unit] =
-    Free.liftF[DatabaseOps, Unit](Write(key, value))
+    Free.liftF(Write(key, value))
 }
 
 object MapInterpreter extends FunctionK[DatabaseOps, Id] {
@@ -37,4 +37,10 @@ object Example {
       _ <- write(1, "Hi!")
       v <- read(1)
     } yield v
+
+  def run =
+    program.foldMap(MapInterpreter)
 }
+
+
+
